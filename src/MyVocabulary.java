@@ -2,10 +2,14 @@
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +20,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -54,6 +59,7 @@ public class MyVocabulary extends javax.swing.JFrame {
     public MyVocabulary() throws IOException {
 
         initComponents();
+        
             DefaultListModel listModel = new DefaultListModel();//bang de set cho Jlist
         ////////////////////// Đọc ghi file//////////////////////
          FileInputStream inputStream;
@@ -72,9 +78,9 @@ public class MyVocabulary extends javax.swing.JFrame {
         int index = line.indexOf('<');
         String target = line.substring(0, index);
         String explain = line.substring(index);
-          System.out.println(target);
-          listModel.addElement(target);// add cac gia tri vao bang Jlist
+          listModel.addElement(explain);// add cac gia tri vao bang Jlist
       }
+   
       
         JListMyvocabulary.setModel(listModel);
 
@@ -93,10 +99,11 @@ public class MyVocabulary extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         JListMyvocabulary = new javax.swing.JList<>();
         returnApp = new javax.swing.JButton();
+        DoneLearn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Từ vựng của tôi");
+        jLabel1.setText("Các từ bạn mới học được");
 
         JListMyvocabulary.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -112,43 +119,78 @@ public class MyVocabulary extends javax.swing.JFrame {
             }
         });
 
+        DoneLearn.setText("Đã thuộc hết");
+        DoneLearn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DoneLearnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
                         .addComponent(returnApp)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(60, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(227, 227, 227)
+                        .addComponent(DoneLearn, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(returnApp, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                    .addComponent(DoneLearn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(returnApp, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void returnAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnAppActionPerformed
-
+          JOptionPane.showMessageDialog(null, "Nếu bạn chưa nhớ nghĩa hãy quay lại tra từ nhé ", "Suggest!", JOptionPane.NO_OPTION);
         this.dispose();
     }//GEN-LAST:event_returnAppActionPerformed
+
+    private void DoneLearnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoneLearnActionPerformed
+       DefaultListModel listModel = new DefaultListModel();
+        JListMyvocabulary.setModel(listModel);
+        //////////////////Luu vao kho tu
+               
+    FileOutputStream fileOutputStream = null;
+          try {
+              fileOutputStream = new FileOutputStream("Vocabulary.txt");
+          } catch (FileNotFoundException ex) {
+              Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+          }
+    Writer writer = null;
+          try {
+              writer = new java.io.OutputStreamWriter(fileOutputStream, "utf8");
+          } catch (UnsupportedEncodingException ex) {
+              Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+          }
+    BufferedWriter bufferedWriter = new BufferedWriter(writer);
+        try {
+            bufferedWriter.write("");
+        } catch (IOException ex) {
+            Logger.getLogger(MyVocabulary.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }//GEN-LAST:event_DoneLearnActionPerformed
   
 
     public static void main(String args[]) {
@@ -188,6 +230,7 @@ public class MyVocabulary extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton DoneLearn;
     private javax.swing.JList<String> JListMyvocabulary;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
