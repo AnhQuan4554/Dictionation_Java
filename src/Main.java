@@ -3,7 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -14,7 +21,7 @@ import javax.swing.JOptionPane;
  * @author welcome
  */
 public class Main extends javax.swing.JFrame {
-
+      List<Word> listWordVoca = new ArrayList<>();
     private final ListWord LW; // doi tuong chua tat ca du lieu
     TextToSpeech tts = new TextToSpeech();
     public void wordListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_wordListValueChanged
@@ -56,6 +63,8 @@ public class Main extends javax.swing.JFrame {
         deleteButton = new javax.swing.JButton();
         voiceButton = new javax.swing.JButton();
         modifyButton = new javax.swing.JButton();
+        addVocabulary = new javax.swing.JButton();
+        patchVocabulary = new javax.swing.JButton();
         txtInputWord = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -110,6 +119,20 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        addVocabulary.setText("Thêm vào kho từ");
+        addVocabulary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addVocabularyActionPerformed(evt);
+            }
+        });
+
+        patchVocabulary.setText("Vào kho từ ");
+        patchVocabulary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                patchVocabularyActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -118,24 +141,30 @@ public class Main extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(patchVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(addWordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(deleteButton))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(voiceButton)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(modifyButton)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(addWordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(deleteButton))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(voiceButton)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(modifyButton))))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,7 +183,11 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addVocabulary, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                    .addComponent(patchVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22))
         );
 
         txtInputWord.setBackground(new java.awt.Color(255, 204, 204));
@@ -252,6 +285,52 @@ public class Main extends javax.swing.JFrame {
         modifyWord.setVisible(true);
     }//GEN-LAST:event_modifyButtonActionPerformed
 
+    private void addVocabularyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addVocabularyActionPerformed
+        int index = jListWords.getSelectedIndex();
+         Word word = LW.words.get(index);
+         listWordVoca.add(word);// ghi vao mang vocabulary
+         ///////////////////////////////GHi vao file TXT//////////////////
+         
+         
+    FileOutputStream fileOutputStream = null;
+          try {
+              fileOutputStream = new FileOutputStream("Vocabulary.txt");
+          } catch (FileNotFoundException ex) {
+              Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+          }
+    Writer writer = null;
+          try {
+              writer = new java.io.OutputStreamWriter(fileOutputStream, "utf8");
+          } catch (UnsupportedEncodingException ex) {
+              Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+          }
+    BufferedWriter bufferedWriter = new BufferedWriter(writer);
+    for (Word w : listWordVoca) {
+            try {
+                bufferedWriter.write(w.getWord_target() + w.getWord_explain() + '\n');
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+          try {
+              bufferedWriter.close();
+          } catch (IOException ex) {
+              Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+          }
+   
+    }//GEN-LAST:event_addVocabularyActionPerformed
+
+    private void patchVocabularyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patchVocabularyActionPerformed
+        MyVocabulary myvoca;
+          try {
+              myvoca = new MyVocabulary();
+               myvoca.setVisible(true);
+          } catch (IOException ex) {
+              Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+          }
+       
+    }//GEN-LAST:event_patchVocabularyActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -290,6 +369,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addVocabulary;
     private javax.swing.JButton addWordButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JEditorPane jEditorExplant;
@@ -299,6 +379,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton modifyButton;
+    private javax.swing.JButton patchVocabulary;
     private javax.swing.JTextField txtInputWord;
     private javax.swing.JButton voiceButton;
     // End of variables declaration//GEN-END:variables
