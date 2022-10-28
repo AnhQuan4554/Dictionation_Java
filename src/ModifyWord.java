@@ -50,6 +50,11 @@ public class ModifyWord extends javax.swing.JFrame {
         });
 
         cancelButton.setText("Hủy bỏ");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Nội dung từ thay đổi ");
 
@@ -120,6 +125,11 @@ public class ModifyWord extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Chuỗi rỗng","Modify fail!!", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_okButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
     /**
      * @param args the command line arguments

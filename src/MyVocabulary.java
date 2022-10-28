@@ -162,7 +162,28 @@ public class MyVocabulary extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void returnAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnAppActionPerformed
-          JOptionPane.showMessageDialog(null, "Nếu bạn chưa nhớ nghĩa hãy quay lại tra từ nhé ", "Suggest!", JOptionPane.NO_OPTION);
+        // doc du lieu
+          FileInputStream inputStream;
+      InputStreamReader inputStreamReader;
+      try {
+        inputStream = new FileInputStream("Vocabulary.txt");
+        inputStreamReader = new InputStreamReader(inputStream,
+            StandardCharsets.UTF_8);
+      } catch (FileNotFoundException e) {
+        inputStreamReader = new InputStreamReader(
+            Objects.requireNonNull(getClass().getResourceAsStream("E_V.txt")),StandardCharsets.UTF_8);
+      }
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        //
+       
+        String line;
+        try {
+            if( (line = bufferedReader.readLine()) != null){
+                JOptionPane.showMessageDialog(null, "Nếu bạn chưa nhớ nghĩa hãy quay lại tra từ nhé ", "Suggest!", JOptionPane.NO_OPTION);
+            } } catch (IOException ex) {
+            Logger.getLogger(MyVocabulary.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(JListMyvocabulary.getSelectedValue());
         this.dispose();
     }//GEN-LAST:event_returnAppActionPerformed
 

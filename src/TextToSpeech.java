@@ -10,11 +10,14 @@ public class TextToSpeech {
 
     VoiceManager freeVM;
     Voice voice;
+    public static String PeopleVOice;
 
     public TextToSpeech() {
+
         System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
+
         voice = VoiceManager.getInstance().getVoice("kevin16");
-//         voice = VoiceManager.getInstance().getVoice("kevin");
+
         if (voice != null) {
             voice.allocate();// Allocating Voice
             try {
@@ -31,7 +34,13 @@ public class TextToSpeech {
     }
 
     public void speakText(String words) {
+
         voice.speak(words);
+
+    }
+
+    public String voicePeople(String value) {
+        return value;
     }
 
 }

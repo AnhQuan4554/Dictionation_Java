@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import java.awt.HeadlessException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -14,6 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,6 +25,8 @@ import javax.swing.JOptionPane;
  * @author welcome
  */
 public class Main extends javax.swing.JFrame {
+    TextToSpeech textto = new TextToSpeech();
+    public String voicePeople ="";
       List<Word> listWordVoca = new ArrayList<>();
     private final ListWord LW; // doi tuong chua tat ca du lieu
     TextToSpeech tts = new TextToSpeech();
@@ -31,6 +37,8 @@ public class Main extends javax.swing.JFrame {
     public Main() {
 
         initComponents();
+        
+        
 
         jEditorExplant.setContentType("text/html");
 
@@ -139,55 +147,54 @@ public class Main extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(patchVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addWordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(addWordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(deleteButton))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(voiceButton)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(modifyButton))))
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(modifyButton))
+                                .addComponent(voiceButton))
+                            .addGap(14, 14, 14))))
+                .addContainerGap(48, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(patchVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(80, 80, 80)
+                .addComponent(addVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 16, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(deleteButton)
-                            .addComponent(addWordButton))
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(voiceButton)
-                            .addComponent(modifyButton))))
-                .addGap(18, 18, 18)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(deleteButton)
+                                .addComponent(modifyButton))
+                            .addGap(6, 6, 6))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(addWordButton)
+                            .addGap(34, 34, 34)
+                            .addComponent(voiceButton))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addVocabulary, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-                    .addComponent(patchVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22))
+                    .addComponent(patchVocabulary, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addVocabulary, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)))
         );
 
         txtInputWord.setBackground(new java.awt.Color(255, 204, 204));
@@ -206,14 +213,14 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(txtInputWord, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(txtInputWord, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,8 +256,9 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_txtInputWordActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        DefaultListModel mod = (DefaultListModel) jListWords.getModel();
-
+       int x = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa không");
+       if(x==JOptionPane.YES_OPTION){
+            DefaultListModel mod = (DefaultListModel) jListWords.getModel();
         int index = jListWords.getSelectedIndex();
         if (index != -1) {
             LW.removeWord(index);
@@ -260,6 +268,8 @@ public class Main extends javax.swing.JFrame {
             jEditorExplant.setContentType("text/html");
             JOptionPane.showMessageDialog(null, "Xoá từ thành công", "Delete Word!", JOptionPane.NO_OPTION);
         }
+       }
+       
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void voiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voiceButtonActionPerformed
@@ -277,60 +287,60 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_addWordButtonActionPerformed
 
     private void modifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyButtonActionPerformed
-         int index = jListWords.getSelectedIndex();
-        if (index < 0 ) {
+        int index = jListWords.getSelectedIndex();
+        if (index < 0) {
             return;
         }
-        ModifyWord modifyWord = new ModifyWord(LW,index,jEditorExplant);
+        ModifyWord modifyWord = new ModifyWord(LW, index, jEditorExplant);
         modifyWord.setVisible(true);
     }//GEN-LAST:event_modifyButtonActionPerformed
 
     private void addVocabularyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addVocabularyActionPerformed
         int index = jListWords.getSelectedIndex();
-         Word word = LW.words.get(index);
-         listWordVoca.add(word);// ghi vao mang vocabulary
-         ///////////////////////////////GHi vao file TXT//////////////////
-         
-         
-    FileOutputStream fileOutputStream = null;
-          try {
-              fileOutputStream = new FileOutputStream("Vocabulary.txt");
-          } catch (FileNotFoundException ex) {
-              Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-          }
-    Writer writer = null;
-          try {
-              writer = new java.io.OutputStreamWriter(fileOutputStream, "utf8");
-          } catch (UnsupportedEncodingException ex) {
-              Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-          }
-    BufferedWriter bufferedWriter = new BufferedWriter(writer);
-    for (Word w : listWordVoca) {
+        Word word = LW.words.get(index);
+        JOptionPane.showMessageDialog(this, "Bạn mới thêm từ "+word.word_target+" vào kho từ vựng");
+        listWordVoca.add(word);// ghi vao mang vocabulary
+        ///////////////////////////////GHi vao file TXT//////////////////
+
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream("Vocabulary.txt");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Writer writer = null;
+        try {
+            writer = new java.io.OutputStreamWriter(fileOutputStream, "utf8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        BufferedWriter bufferedWriter = new BufferedWriter(writer);
+        for (Word w : listWordVoca) {
             try {
                 bufferedWriter.write(w.getWord_target() + w.getWord_explain() + '\n');
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
-    }
-          try {
-              bufferedWriter.close();
-          } catch (IOException ex) {
-              Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-          }
-   
+        }
+        try {
+            bufferedWriter.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_addVocabularyActionPerformed
 
     private void patchVocabularyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patchVocabularyActionPerformed
         MyVocabulary myvoca;
-          try {
-              myvoca = new MyVocabulary();
-               myvoca.setVisible(true);
-          } catch (IOException ex) {
-              Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-          }
-       
-    }//GEN-LAST:event_patchVocabularyActionPerformed
+        try {
+            myvoca = new MyVocabulary();
+            myvoca.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+    }//GEN-LAST:event_patchVocabularyActionPerformed
+   
     /**
      * @param args the command line arguments
      */
@@ -363,7 +373,19 @@ public class Main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+                Main main = new Main();
+                main.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent we) {
+                    int result = JOptionPane.showConfirmDialog(main,
+                        "Do you want to Exit ?", "Exit Confirmation : ",
+                        JOptionPane.YES_NO_OPTION);
+                    if (result == JOptionPane.YES_OPTION)
+                        main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    else if (result == JOptionPane.NO_OPTION)
+                        main.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                }
+                });
+                main.setVisible(true);       
             }
         });
     }
